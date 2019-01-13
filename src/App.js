@@ -6,7 +6,12 @@ function Name() {
 }
 
 function Links() {
-    return <a href="https://www.github.com/shukryzablah">Github</a>;
+    return(
+        <div>
+          <a href="https://www.github.com/shukryzablah">Github</a>
+          <a href="https://drive.google.com/file/d/1bB3EOQ-S_m6bTVys86potqT6rHZP3duY/view?usp=sharing">Resume</a>
+        </div>
+    );
 }
 
 class App extends Component {

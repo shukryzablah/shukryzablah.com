@@ -9,3 +9,7 @@
     grid-area: info;
     text-align: center;
 }
+
+a {
+    margin-left: 10px;
+}
