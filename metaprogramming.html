@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-01-29 Wed 12:40 -->
+<!-- 2020-02-01 Sat 12:28 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CS490 Metaprogramming</title>
@@ -245,14 +245,160 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org5081666">1. CS490 Metaprogramming?</a></li>
+<li><a href="#org1d355cd">1. Practical Common Lisp <span class="timestamp-wrapper"><span class="timestamp">[2020-01-31 Fri]</span></span></a></li>
+<li><a href="#org3751639">2. Main Idea <span class="timestamp-wrapper"><span class="timestamp">[2020-01-30 Thu]</span></span></a></li>
+<li><a href="#orgb2e086c">3. CS490 Metaprogramming? <span class="timestamp-wrapper"><span class="timestamp">[2020-01-27 Mon]</span></span></a></li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org5081666" class="outline-2">
-<h2 id="org5081666"><span class="section-number-2">1</span> CS490 Metaprogramming?</h2>
+<div id="outline-container-org1d355cd" class="outline-2">
+<h2 id="org1d355cd"><span class="section-number-2">1</span> Practical Common Lisp <span class="timestamp-wrapper"><span class="timestamp">[2020-01-31 Fri]</span></span></h2>
 <div class="outline-text-2" id="text-1">
+<p>
+These are some notes to get started with some Common Lisp
+coding. Although there isn't much to learn, it will allow me to get
+familiar with Lisp and tune my programming environment for later.
+</p>
+
+<p>
+A language processor is usually divided up into the lexical analyzer,
+which is in charge of breaking up the stream of characters into tokens
+which then go to the parser to create an abstract syntax treer based
+on the grammar of the language. Finally, the tree gets evaluated or
+coverted to machine code. 
+</p>
+
+<p>
+Here is a first little macro. This macro allows you to write Lisp
+backwards.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #51afef;">defmacro</span> <span style="color: #c678dd;">backwards</span> (expr) (reverse expr))
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(backwards (<span style="color: #98be65;">"Hello, World!"</span> t format))
+</pre>
+</div>
+
+<pre class="example">
+Hello, World!
+</pre>
+
+
+<p>
+Below is a cool little program. I have learned a lot about Common
+Lisp's syntax and common patterns. I also learned about other control
+structures and macros.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #51afef;">defun</span> <span style="color: #c678dd;">print-fibs-en</span> (nth) 
+  (<span style="color: #51afef;">do</span> ((n 0 (1+ n))
+       (cur 0 next)
+       (next 1 (+ cur next)))
+      ((= nth n) cur)
+    (format t <span style="color: #98be65;">"~r~%"</span> cur)))
+
+(print-fibs-en 10)
+</pre>
+</div>
+
+<pre class="example">
+zero
+one
+one
+two
+three
+five
+eight
+thirteen
+twenty-one
+thirty-four
+</pre>
+
+<p>
+Or with the very interesting loop macro.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #51afef;">defun</span> <span style="color: #c678dd;">print-fibs-en2</span> (nth)
+  (<span style="color: #51afef;">loop</span> for i below nth
+     and a = 0 then b
+     and b = 1 then (+ b a)
+     do (format t <span style="color: #98be65;">"~r~%"</span> a)))
+
+(print-fibs-en2 10)
+</pre>
+</div>
+
+<pre class="example">
+zero
+one
+one
+two
+three
+five
+eight
+thirteen
+twenty-one
+thirty-four
+</pre>
+
+<p>
+I went through the first 8 chapters of Practical Common Lisp to be
+more familiar with the language and the different ideas. I think that
+it serves well as a reference book at this stage. I will proceed with
+Common Lisp and check back with this book whenever I need
+clarification on some capability.
+</p>
+</div>
+</div>
+<div id="outline-container-org3751639" class="outline-2">
+<h2 id="org3751639"><span class="section-number-2">2</span> Main Idea <span class="timestamp-wrapper"><span class="timestamp">[2020-01-30 Thu]</span></span></h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The main idea is that Lisp is a programmable programming language that
+lends itself to bottom-up design. Bottom-up design is the construction
+of layers of abstraction on top of the vanilla programming language
+with a particular context in mind, in order to achieve a desired level
+of expressivity. With more expressive power for the problems at hand,
+programmers think better about their problems and their solutions.
+</p>
+
+<p>
+There are two ways to do bottom up programming. With functions, and
+with macros. 
+</p>
+
+<p>
+<span class="underline">Question:</span> What is the current state of support for macros in other
+languages? More generally, is there any analysis of the evolution of
+programming languages and the role of Lisp in it? 
+</p>
+
+<p>
+Here is a small hello world program.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #51afef;">defun</span> <span style="color: #c678dd;">hello-world</span> ()
+  (format t <span style="color: #98be65;">"Hello World!"</span>))
+
+(hello-world)
+</pre>
+</div>
+
+<pre class="example">
+Hello World!
+</pre>
+</div>
+</div>
+<div id="outline-container-orgb2e086c" class="outline-2">
+<h2 id="orgb2e086c"><span class="section-number-2">3</span> CS490 Metaprogramming? <span class="timestamp-wrapper"><span class="timestamp">[2020-01-27 Mon]</span></span></h2>
+<div class="outline-text-2" id="text-3">
 <p>
 I'm trying to setup up a blog to keep track of my progress in my
 special topics course CS490 Metaprogramming. 
@@ -272,11 +418,6 @@ I can define a variable here:
 </pre>
 </div>
 
-<pre class="example">
-5
-</pre>
-
-
 <p>
 And compute with it here: 
 </p>
@@ -286,15 +427,10 @@ And compute with it here:
 </pre>
 </div>
 
-<pre class="example">
-8
-</pre>
-
-
 <p>
 The goal of this course is to learn about metaprogramming,
 specifically macros. There will be readings and reflections on books
-(starting with On Lisp) and papers and essays.
+(starting with On Lisp) and papers and essays. 
 </p>
 </div>
 </div>
@@ -302,7 +438,7 @@ specifically macros. There will be readings and reflections on books
 <div id="postamble" class="status">
 <p class="author">Author: Shukry Zablah (<a href="mailto:shukryzablah@gmail.com">shukryzablah@gmail.com</a>)</p>
  <p class="exporter">Exporter: <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.60 (<a href="https://orgmode.org">Org</a> mode 9.3)</p>
- <p class="modified">Last modified: 2020-01-29 Wed 12:40</p>
+ <p class="modified">Last modified: 2020-02-01 Sat 12:27</p>
 </div>
 </body>
 </html>
