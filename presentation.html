@@ -28,8 +28,8 @@
 <div class="reveal">
 <div class="slides">
 <section>
-<section id="slide-orgad06326">
-<h2 id="orgad06326">Parallelization of the Cube Method for Balanced Sampling</h2>
+<section id="slide-org202cb63">
+<h2 id="org202cb63">Parallelization of the Cube Method for Balanced Sampling</h2>
 <p>
 Shukry Zablah
 </p>
@@ -44,27 +44,21 @@ March 2, 2020
 </section>
 </section>
 <section>
-<section id="slide-org9f7a2e3">
-<h2 id="org9f7a2e3">Preliminaries</h2>
-<div class="outline-text-2" id="text-org9f7a2e3">
+<section id="slide-org54ad60b">
+<h2 id="org54ad60b">Preliminaries</h2>
+<div class="outline-text-2" id="text-org54ad60b">
 </div>
 </section>
-<section id="slide-org471089c">
-<h3 id="org471089c">Population</h3>
+<section id="slide-orgbd85e27">
+<h3 id="orgbd85e27">Motivation</h3>
 <p>
-\(\left\{u_{1}, \dots, u_{k}, \dots, u_{N}\right\}\)
+For a population \(U\): \(\left\{u_{1}, \dots, u_{k}, \dots, u_{N}\right\}\)
 </p>
 <p class="fragment roll-in">
-\(U=\{1, \ldots, k, \ldots, N\}\)
-</p>
-</section>
-<section id="slide-org17526ab">
-<h3 id="org17526ab">Aim</h3>
-<p>
-Study a variable y taking value y<sub>k</sub> for unit k.
+We want to study an unknown variable \(y\) taking a value \(y_k\) for \(k \in U\).
 </p>
 <p class="fragment roll-in">
-\(T=f\left(y_{1} \cdots y_{k} \cdots y_{N}\right)\)
+In particular: \(T=f\left(y_{1} \cdots y_{k} \cdots y_{N}\right)\)
 </p>
 <aside class="notes">
 <p>
@@ -80,74 +74,59 @@ Common functions:
 
 </aside>
 </section>
-<section id="slide-orgbcfd88c">
-<h3 id="orgbcfd88c">Auxiliary Variables</h3>
+<section id="slide-org48d3208">
+<h3 id="org48d3208">Auxiliary Variables</h3>
 <p>
-We have \(p\) <i>known</i> variables for every unit in the population.
-</p>
-<p class="fragment roll-in">
+We also have \(p\) <i>known</i> auxiliary variables. 
 \(\mathbf{x}_{k}=\left(\begin{array}{lllll}x_{k 1} & \cdots & x_{k j} & \cdots & x_{k p}\end{array}\right)^{\prime}\)
 </p>
 </section>
-<section id="slide-org00c6a00">
-<h3 id="org00c6a00">Sample</h3>
+<section id="slide-orgc623e50">
+<h3 id="orgc623e50">Sample w/o Replacement</h3>
 <p>
-\(\mathbf{s}=\left(\begin{array}{lllll}s_{1} & \cdots & s_{k} & \cdots & s_{N}\end{array}\right)^{\prime} \in\{0,1\}^{N}\)
-</p>
-</section>
-<section id="slide-orgc286cc8">
-<h3 id="orgc286cc8">Support</h3>
-<p>
-A support is a set of samples denoted by \(\mathcal{Q}\)
+\(\mathbf{s}=\left(\begin{array}{lllll}s_{1} & \cdots & s_{k} & \cdots & s_{N}\end{array}\right)^{\prime}\)
 </p>
 <p class="fragment roll-in">
-Symmetric support w/o replacement: \(\mathcal{S}=\{0,1\}^{N}\)
-</p>
-</section>
-<section id="slide-org184b490">
-<h3 id="org184b490">Sampling Design</h3>
-<p>
-A sampling design is a multivariate probability distribution on \(\mathcal{Q}\)
+\[s_{k}=\left\{\begin{array}{ll}1 & \text { if unit } k \text { is in the sample } \\ 0 & \text { if unit } k \text { is not in the sample }\end{array}\right.\]
 </p>
 <p class="fragment roll-in">
-\(\sum_{\mathbf{s} \in \mathcal{Q}} p(\mathbf{s})=1\)
+A support \(\mathcal{S}\) is a set of possible samples.
 </p>
 </section>
-<section id="slide-orgd0136ea">
-<h3 id="orgd0136ea">Inclusion Probabilities</h3>
+<section id="slide-orgb2836d8">
+<h3 id="orgb2836d8">Sampling Design</h3>
 <p>
-The probability that unit k is in the random sample.
+A sampling design is a multivariate probability distribution on \(\mathcal{S}\)
+</p>
+
+<p>
+\(\sum_{\mathbf{s} \in \mathcal{S}} p(\mathbf{s})=1\)
 </p>
 </section>
-<section id="slide-orgb5d2f1a">
-<h3 id="orgb5d2f1a">HT Estimator</h3>
+<section id="slide-org54cc35b">
+<h3 id="org54cc35b">Inclusion Probabilities \(\mathbf{\pi}\)</h3>
 <p>
-An estimator for the total (or mean) that takes into consideration
-unequal inclusion probabilities.
+\(\pi_{k}=\operatorname{Pr}\left(S_{k}>0\right)=\mathrm{E}\left[S_{k}\right]\)
 </p>
 </section>
 </section>
 <section>
-<section id="slide-org060f8d5">
-<h2 id="org060f8d5">Balanced Sampling</h2>
+<section id="slide-org6931c5a">
+<h2 id="org6931c5a">Balanced Sampling</h2>
 <p>
-A sampling design such that the set of possible samples is restricted by our estimate of the known totals.
+\(\mathcal{S}=\left\{\mathbf{s} \in \{0,1\}^{N} | \sum_{k \in U} \frac{x_{k j}}{\pi_{k}}=\sum_{k \in U} x_{k j}\right\}\),
 </p>
-<p class="fragment roll-in">
-\(\mathcal{Q}=\left\{\mathbf{s} \in \mathcal{S} | \sum_{k \in U} \frac{\mathbf{x}_{k} s_{k}}{\pi_{k}}=\mathbf{X}\right\}\)
-</p>
-<p class="fragment roll-in">
-\(\operatorname{var}\left(\hat{\mathbf{X}}_{H T}\right)=0\)
+
+<p>
+for \(j = 0, 1, \dots, p\)
 </p>
 </section>
-<section id="slide-org3db41e5">
-<h3 id="org3db41e5">Geometric Representation</h3>
+<section id="slide-orgc361c46">
+<h3 id="orgc361c46">Geometric Representation (N = 3, p = 1)</h3>
 <div class="column">
-<ul>
-<li>vertices = samples</li>
-<li>shaded area = fixed sample size restriction</li>
-
-</ul>
+<p>
+If our only auxiliary variable restricts us to \(n(\mathbf{s}) = 2\):
+</p>
 </div>
 <div class="column" style="display:block;margin:auto; width:50%">
 
@@ -159,42 +138,55 @@ A sampling design such that the set of possible samples is restricted by our est
 </section>
 </section>
 <section>
-<section id="slide-org97154ba">
-<h2 id="org97154ba">The Cube Method</h2>
+<section id="slide-org6246b5e">
+<h2 id="org6246b5e">The Cube Method</h2>
 <p>
 Deville, Tille 2004
 </p>
-<p class="fragment roll-in">
-<code>sample = cube(X, pi)</code>
+
+<p>
+<code>sample = cube(X,</code> \(\pi\) <code>)</code>
 </p>
 </section>
-<section id="slide-org2ba3156">
-<h3 id="org2ba3156">Intuition</h3>
+<section id="slide-org35eceed">
+<h3 id="org35eceed">Intuition</h3>
 <p>
-The cube method is a random walk on the constraint space to a vertex.
+A random walk from \(\mathbf{\pi}\) to an \(\mathbf{s} \in \left(\{0,1\}^{N} \cap \mathcal{S}\right)\).
 </p>
+<div class="column" style="display:block;margin:auto; width:50%">
 
 <div class="figure">
 <p><img src="images/cube_randomwalk.png" alt="cube_randomwalk.png">
 </p>
 </div>
+</div>
 </section>
-<section id="slide-org77fdbf0">
-<h3 id="org77fdbf0">Stratified Sampling</h3>
+<section id="slide-org454977f">
+<h3 id="org454977f">Fixed Sample Size (N = 4, p = 1)</h3>
 <p>
-\(\pi=\left(\begin{array}{l}1 / 9 \\ 2 / 9 \\ 3 / 9 \\ 4 / 9 \\ 5 / 9 \\ 6 / 9 \\ 7 / 9 \\ 8 / 9\end{array}\right), \mathbf{X}=\left(\begin{array}{l}0 & 1 \\ 0 & 2 \\ 1 & 3 \\ 1 & 4 \\ 1 & 5 \\ 1 & 6 \\ 0 & 7 \\ 0 & 8\end{array}\right)\)
+If our only auxiliary variable restricts us to \(n(\mathbf{s}) = 2\):
 </p>
+<div class="column" style="font-size: 70%">
+<p>
+\[\pi=\left(\begin{array}{c}0.5 \\ 0.5 \\ 0.5 \\ 0.5\end{array}\right) \rightarrow\left(\begin{array}{c}0.6666 \\ 0.6666 \\ 0.6666 \\ 0\end{array}\right) \rightarrow\left(\begin{array}{c}1 \\ 0.5 \\ 0.5 \\ 0\end{array}\right) \rightarrow\left(\begin{array}{l}1 \\ 0 \\ 1 \\ 0\end{array}\right)=S\]
+</p>
+</div>
 </section>
-<section id="slide-orgec709a9">
-<h3 id="orgec709a9">Fixed Sample Size</h3>
+<section id="slide-org750ef00">
+<h3 id="org750ef00">Stratification (N = 9, p = 3)</h3>
 <p>
-\(\pi=\left(\begin{array}{l}1 / 9 \\ 2 / 9 \\ 3 / 9 \\ 4 / 9 \\ 5 / 9 \\ 6 / 9 \\ 7 / 9 \\ 8 / 9\end{array}\right), \mathbf{X}=\left(\begin{array}{l}1 / 9 & 1 \\ 2 / 9 & 1 \\ 3 / 9 & 1 \\ 4 / 9 & 1 \\ 5 / 9 & 1 \\ 6 / 9 & 1 \\ 7 / 9 & 1 \\ 8 / 9 & 1\end{array}\right)\)
+We can encode any balancing restriction, e.g. 2 strata and 1 other auxiliary variable:
 </p>
+<div class="column" style="font-size: 60%">
+<p>
+\(\pi=\left(\begin{array}{l}1 / 9 \\ 2 / 9 \\ 3 / 9 \\ 4 / 9 \\ 5 / 9 \\ 6 / 9 \\ 7 / 9 \\ 8 / 9\end{array}\right), \mathbf{X}=\left(\begin{array}{l}0 & 1 & 1 \\ 0 & 1 & 2 \\ 1 & 0 &  3 \\ 1 & 0 & 4 \\ 1 & 0 & 5 \\ 1 & 0 & 6 \\ 0 & 1 & 7 \\ 0 & 1 & 8\end{array}\right)\)
+</p>
+</div>
 </section>
 </section>
 <section>
-<section id="slide-org9b394b1">
-<h2 id="org9b394b1">Related Works</h2>
+<section id="slide-org3dd06b4">
+<h2 id="org3dd06b4">Related Works</h2>
 <p class="fragment roll-in">
 Chauvet 2006: A Fast Algorithm for Balanced Sampling
 </p>
@@ -207,24 +199,21 @@ Hasler, Tille 2013: Fast Balanced Sampling for Highly Stratified Populations
 </section>
 </section>
 <section>
-<section id="slide-org64bd980">
-<h2 id="org64bd980">My Work</h2>
-<ul>
-<li>Develop a parallel algorithm that implements a balanced sampling design.</li>
-<li>Compare current implementations of the cube method.</li>
-<li>Evaluate performance gains from parallellization.</li>
-
-</ul>
+<section id="slide-org96442b0">
+<h2 id="org96442b0">Parallelization</h2>
+<p>
+Haven't decided. Have no images so would be only text.
+</p>
 </section>
 </section>
 <section>
-<section id="slide-orgcf78bcb">
-<h2 id="orgcf78bcb">Questions?</h2>
-<div class="outline-text-2" id="text-orgcf78bcb">
+<section id="slide-org62625e9">
+<h2 id="org62625e9">Questions?</h2>
+<div class="outline-text-2" id="text-org62625e9">
 </div>
 </section>
-<section id="slide-org483344a">
-<h3 id="org483344a">Expectation of a Random Sample</h3>
+<section id="slide-org6abcc47">
+<h3 id="org6abcc47">Why is the sum of \(\mathbf{\pi} = n(\mathbf{s})\)?</h3>
 <p>
 \(\boldsymbol{\mu}=\mathrm{E}(\mathbf{S})=\sum_{\mathbf{s} \in \mathcal{Q}} p(\mathbf{s}) \mathbf{s}\)
 </p>
@@ -235,8 +224,8 @@ Hasler, Tille 2013: Fast Balanced Sampling for Highly Stratified Populations
 And in our setting: \(\pi=\mu\)
 </p>
 </section>
-<section id="slide-org41c897a">
-<h3 id="org41c897a">Horvitz Thompson Estimator</h3>
+<section id="slide-orgd2d591c">
+<h3 id="orgd2d591c">Horvitz Thompson Estimator</h3>
 <p>
 The HT estimator is an unbiased estimator that works for sampling with
 or without replacement and with unequal inclusion probabilities.
@@ -250,21 +239,19 @@ or without replacement and with unequal inclusion probabilities.
 If \(\pi_k = n / N\) for every \(k\) (SRS), then the estimator becomes \(N\bar{y}\)
 </p>
 </section>
-<section id="slide-orgea7443c">
-<h3 id="orgea7443c">Inclusion Probabilities</h3>
+<section id="slide-org1498d36">
+<h3 id="org1498d36">How do I choose \(\mathbf{\pi}\)</h3>
 <p>
 Inclusion probabilities are chosen either by necessity or to lower the
 variance of our estimator of Y (e.g. proportional to some auxiliary variable). 
 </p>
+
+<p>
+Nedyalkova, Tille 2009
+</p>
 </section>
-<section id="slide-orgcb3b943">
-<h3 id="orgcb3b943">The Rounding Problem</h3>
-</section>
-<section id="slide-org091cf03">
-<h3 id="org091cf03">Enumerative Algorithm</h3>
-</section>
-<section id="slide-org455b5e3">
-<h3 id="org455b5e3">Quality of Balancing</h3>
+<section id="slide-org8031d7f">
+<h3 id="org8031d7f">The Rounding Problem</h3>
 </section>
 </section>
 </div>
