@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-02-01 Sat 12:28 -->
+<!-- 2020-04-17 Fri 20:05 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CS490 Metaprogramming</title>
@@ -159,19 +159,6 @@
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
   .inlinetask {
     padding: 10px;
     border: 2px solid gray;
@@ -191,12 +178,19 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#343131;color:white;} </style>
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -245,62 +239,156 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org1d355cd">1. Practical Common Lisp <span class="timestamp-wrapper"><span class="timestamp">[2020-01-31 Fri]</span></span></a></li>
-<li><a href="#org3751639">2. Main Idea <span class="timestamp-wrapper"><span class="timestamp">[2020-01-30 Thu]</span></span></a></li>
-<li><a href="#orgb2e086c">3. CS490 Metaprogramming? <span class="timestamp-wrapper"><span class="timestamp">[2020-01-27 Mon]</span></span></a></li>
+<li><a href="#org9459a9f">1. Unit 1: Tear Down/Build Up</a>
+<ul>
+<li><a href="#org878b8d3">1.1. Tasks</a>
+<ul>
+<li><a href="#orga34b3b6">1.1.1. On Lisp <code>[6/6]</code></a></li>
+<li><a href="#orgfd8da43">1.1.2. Turing's Cathedral</a></li>
+<li><a href="#org04e7a62">1.1.3. History of Lisp</a></li>
+</ul>
+</li>
+<li><a href="#org40f474a">1.2. Code Snippets</a>
+<ul>
+<li><a href="#org538d648">1.2.1. Hello World</a></li>
+<li><a href="#org691be65">1.2.2. Fun with S-expressions: Backwards Expressions</a></li>
+<li><a href="#org53163f9">1.2.3. Loop DSL: Fibonacci Numbers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgdac4379">2. Unit 2: New Territory</a>
+<ul>
+<li><a href="#org3de0aa0">2.1. Tasks</a>
+<ul>
+<li><a href="#orge9d1e47">2.1.1. On Lisp <code>[8/8]</code></a></li>
+<li><a href="#org42985ff">2.1.2. Eliza &amp; PAIP</a></li>
+<li><a href="#orgf589d95">2.1.3. Let over Lambda</a></li>
+<li><a href="#orgcde447f">2.1.4. Supplementary Material</a></li>
+</ul>
+</li>
+<li><a href="#org10971da">2.2. Code Snippets</a>
+<ul>
+<li><a href="#orgb7a2dc1">2.2.1. Eliza</a></li>
+<li><a href="#org53df639">2.2.2. New Control Structures</a></li>
+<li><a href="#org312395f">2.2.3. Use Package Macro in Emacs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgd6881da">3. Unit 3: Application</a>
+<ul>
+<li><a href="#orgf8960de">3.1. Tasks</a>
+<ul>
+<li><a href="#org88a7d94">3.1.1. <span class="todo TODO">TODO</span> Prolog</a></li>
+<li><a href="#orgb16c163">3.1.2. <span class="todo TODO">TODO</span> Metaprogramming Survey</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org1d355cd" class="outline-2">
-<h2 id="org1d355cd"><span class="section-number-2">1</span> Practical Common Lisp <span class="timestamp-wrapper"><span class="timestamp">[2020-01-31 Fri]</span></span></h2>
+<p>
+Goal: Develop an understanding and appreciation for the concept and
+practice of metaprogramming as an advanced topic in programming
+language theory and programming language paradigms.
+</p>
+
+<div id="outline-container-org9459a9f" class="outline-2">
+<h2 id="org9459a9f"><span class="section-number-2">1</span> Unit 1: Tear Down/Build Up</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-These are some notes to get started with some Common Lisp
-coding. Although there isn't much to learn, it will allow me to get
-familiar with Lisp and tune my programming environment for later.
+In the first part of the course, I broke down my mental model of
+programming. This was important to build a better one. In this unit, I
+familiarized myself with the concepts of bottom-up programming, and
+the central role of function composition in proper bottom-up
+design. Also important was an introduction to programming language
+theory and the idea behind S-expressions. 
 </p>
-
-<p>
-A language processor is usually divided up into the lexical analyzer,
-which is in charge of breaking up the stream of characters into tokens
-which then go to the parser to create an abstract syntax treer based
-on the grammar of the language. Finally, the tree gets evaluated or
-coverted to machine code. 
-</p>
-
-<p>
-Here is a first little macro. This macro allows you to write Lisp
-backwards.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #51afef;">defmacro</span> <span style="color: #c678dd;">backwards</span> (expr) (reverse expr))
-</pre>
 </div>
-
+<div id="outline-container-org878b8d3" class="outline-3">
+<h3 id="org878b8d3"><span class="section-number-3">1.1</span> Tasks</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-orga34b3b6" class="outline-4">
+<h4 id="orga34b3b6"><span class="section-number-4">1.1.1</span> On Lisp <code>[6/6]</code></h4>
+<div class="outline-text-4" id="text-1-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="orge662569"></a><span class="done DONE">DONE</span> Ch1. The Extensible Language<br></li>
+<li><a id="orgc0eb8f7"></a><span class="done DONE">DONE</span> Ch2. Functions<br></li>
+<li><a id="org77d1f05"></a><span class="done DONE">DONE</span> Ch3. Functional Programming<br></li>
+<li><a id="org6db0c70"></a><span class="done DONE">DONE</span> Ch4. Utility Functions<br></li>
+<li><a id="orgc2b1d1a"></a><span class="done DONE">DONE</span> Ch5. Returning Functions<br></li>
+</ol>
+</div>
+<div id="outline-container-orgfd8da43" class="outline-4">
+<h4 id="orgfd8da43"><span class="section-number-4">1.1.2</span> Turing's Cathedral</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+Mathematicians, WWII, artillery, atom bomb, Hungarians, RAM, and
+more.
+</p>
+</div>
+</div>
+<div id="outline-container-org04e7a62" class="outline-4">
+<h4 id="org04e7a62"><span class="section-number-4">1.1.3</span> History of Lisp</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<p>
+<a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)">https://en.wikipedia.org/wiki/Lisp_(programming_language)</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org40f474a" class="outline-3">
+<h3 id="org40f474a"><span class="section-number-3">1.2</span> Code Snippets</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-org538d648" class="outline-4">
+<h4 id="org538d648"><span class="section-number-4">1.2.1</span> Hello World</h4>
+<div class="outline-text-4" id="text-1-2-1">
 <div class="org-src-container">
-<pre class="src src-lisp">(backwards (<span style="color: #98be65;">"Hello, World!"</span> t format))
+<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">hello-world</span> ()
+    (format t <span style="color: #CC9393;">"Hello World!"</span>))
+
+(hello-world)
 </pre>
 </div>
 
 <pre class="example">
-Hello, World!
+Hello World!
+
 </pre>
-
-
-<p>
-Below is a cool little program. I have learned a lot about Common
-Lisp's syntax and common patterns. I also learned about other control
-structures and macros.
-</p>
-
+</div>
+</div>
+<div id="outline-container-org691be65" class="outline-4">
+<h4 id="org691be65"><span class="section-number-4">1.2.2</span> Fun with S-expressions: Backwards Expressions</h4>
+<div class="outline-text-4" id="text-1-2-2">
 <div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #51afef;">defun</span> <span style="color: #c678dd;">print-fibs-en</span> (nth) 
-  (<span style="color: #51afef;">do</span> ((n 0 (1+ n))
-       (cur 0 next)
-       (next 1 (+ cur next)))
-      ((= nth n) cur)
-    (format t <span style="color: #98be65;">"~r~%"</span> cur)))
+<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">backwards</span> (expr)
+  (reverse expr))
+
+(equal 4 (backwards (2 2 +)))
+</pre>
+</div>
+
+<pre class="example">
+T
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org53163f9" class="outline-4">
+<h4 id="org53163f9"><span class="section-number-4">1.2.3</span> Loop DSL: Fibonacci Numbers</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">print-fibs-en</span> (nth)
+  (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for i below nth
+     and a = 0 then b
+     and b = 1 then (+ b a)
+     do (format t <span style="color: #CC9393;">"~r~%"</span> a)))
 
 (print-fibs-en 10)
 </pre>
@@ -318,127 +406,434 @@ thirteen
 twenty-one
 thirty-four
 </pre>
-
-<p>
-Or with the very interesting loop macro.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #51afef;">defun</span> <span style="color: #c678dd;">print-fibs-en2</span> (nth)
-  (<span style="color: #51afef;">loop</span> for i below nth
-     and a = 0 then b
-     and b = 1 then (+ b a)
-     do (format t <span style="color: #98be65;">"~r~%"</span> a)))
-
-(print-fibs-en2 10)
-</pre>
-</div>
-
-<pre class="example">
-zero
-one
-one
-two
-three
-five
-eight
-thirteen
-twenty-one
-thirty-four
-</pre>
-
-<p>
-I went through the first 8 chapters of Practical Common Lisp to be
-more familiar with the language and the different ideas. I think that
-it serves well as a reference book at this stage. I will proceed with
-Common Lisp and check back with this book whenever I need
-clarification on some capability.
-</p>
 </div>
 </div>
-<div id="outline-container-org3751639" class="outline-2">
-<h2 id="org3751639"><span class="section-number-2">2</span> Main Idea <span class="timestamp-wrapper"><span class="timestamp">[2020-01-30 Thu]</span></span></h2>
+</div>
+</div>
+
+<div id="outline-container-orgdac4379" class="outline-2">
+<h2 id="orgdac4379"><span class="section-number-2">2</span> Unit 2: New Territory</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-The main idea is that Lisp is a programmable programming language that
-lends itself to bottom-up design. Bottom-up design is the construction
-of layers of abstraction on top of the vanilla programming language
-with a particular context in mind, in order to achieve a desired level
-of expressivity. With more expressive power for the problems at hand,
-programmers think better about their problems and their solutions.
+In the second part of the course I build on the new model of
+programming I developed in Unit 1. I learn how to use the macro system
+in Lisp and how it works. Since it is a new type of abstraction there
+is a lot of ground that had to be covered. 
 </p>
+</div>
+<div id="outline-container-org3de0aa0" class="outline-3">
+<h3 id="org3de0aa0"><span class="section-number-3">2.1</span> Tasks</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-orge9d1e47" class="outline-4">
+<h4 id="orge9d1e47"><span class="section-number-4">2.1.1</span> On Lisp <code>[8/8]</code></h4>
+<div class="outline-text-4" id="text-2-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="org220c987"></a><span class="done DONE">DONE</span> Ch6. Functions as Representation<br></li>
+<li><a id="orgf767721"></a><span class="done DONE">DONE</span> Ch7. Macros<br></li>
+<li><a id="org240951e"></a><span class="done DONE">DONE</span> Ch8. When to Use Macros<br></li>
+<li><a id="orgdf40552"></a><span class="done DONE">DONE</span> Ch9. Variable Capture<br></li>
+<li><a id="orga5257ed"></a><span class="done DONE">DONE</span> Ch10. Other Macro Pitfalls<br></li>
+<li><a id="org04cf202"></a><span class="done DONE">DONE</span> Ch11. Classic Macros<br></li>
+<li><a id="orgd77bf55"></a><span class="done DONE">DONE</span> Ch12. Generalized Variables<br></li>
+<li><a id="org195a67d"></a><span class="done DONE">DONE</span> Ch13. Computation at Compile-Time<br></li>
+</ol>
+</div>
+<div id="outline-container-org42985ff" class="outline-4">
+<h4 id="org42985ff"><span class="section-number-4">2.1.2</span> Eliza &amp; PAIP</h4>
+</div>
+<div id="outline-container-orgf589d95" class="outline-4">
+<h4 id="orgf589d95"><span class="section-number-4">2.1.3</span> Let over Lambda</h4>
+</div>
+<div id="outline-container-orgcde447f" class="outline-4">
+<h4 id="orgcde447f"><span class="section-number-4">2.1.4</span> Supplementary Material</h4>
+<div class="outline-text-4" id="text-2-1-4">
+</div>
+<ol class="org-ol">
+<li><a id="orgd1f1590"></a>The Law of Leaky Abstractions<br></li>
+<li><a id="org0df79c3"></a>Homoiconicity<br></li>
+<li><a id="org61a2cd0"></a>Metaprogramming<br></li>
+<li><a id="orgb85a8a4"></a>Lisp at the Frontier of Computation (Robert Smith @ Rigetti Computing)<br></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org10971da" class="outline-3">
+<h3 id="org10971da"><span class="section-number-3">2.2</span> Code Snippets</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-orgb7a2dc1" class="outline-4">
+<h4 id="orgb7a2dc1"><span class="section-number-4">2.2.1</span> Eliza</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">defconstant</span> <span style="color: #DFAF8F;">fail</span> nil <span style="color: #9FC59F;">"Indicates pattern-match failure"</span>)
+(<span style="color: #F0DFAF; font-weight: bold;">defconstant</span> <span style="color: #DFAF8F;">no-bindings</span> '((t . t))
+  <span style="color: #9FC59F;">"Indicates pat-match success, with no variables"</span>)
 
-<p>
-There are two ways to do bottom up programming. With functions, and
-with macros. 
-</p>
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">variable-p</span> (x)
+  <span style="color: #9FC59F;">"Is x a variable (a symbol beginning with '?')?"</span>
+  (and (symbolp x) (equal (char (symbol-name x) 0) #\?)))
 
-<p>
-<span class="underline">Question:</span> What is the current state of support for macros in other
-languages? More generally, is there any analysis of the evolution of
-programming languages and the role of Lisp in it? 
-</p>
 
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">get-binding</span> (var bindings)
+  <span style="color: #9FC59F;">"Find a (variable . value) pair in a binding list."</span>
+  (assoc var bindings))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">binding-val</span> (binding)
+  <span style="color: #9FC59F;">"Get the value part of a single binding."</span>
+  (cdr binding))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">lookup</span> (var bindings)
+  <span style="color: #9FC59F;">"Get the value part (for var) from a binding list."</span>
+  (binding-val (get-binding var bindings)))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">extend-bindings</span> (var val bindings)
+  <span style="color: #9FC59F;">"Add a (var . value) pair to a binding list."</span>
+  (cons (cons var val)
+        (<span style="color: #F0DFAF; font-weight: bold;">if</span> (eq bindings no-bindings)
+            nil
+            bindings)))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">pattern-match</span> (pattern input <span style="color: #7CB8BB;">&amp;optional</span> (bindings no-bindings))
+  <span style="color: #9FC59F;">"Match pattern against input in the context of the bindings."</span>
+  (<span style="color: #F0DFAF; font-weight: bold;">cond</span> ((eq bindings fail) fail)
+        ((variable-p pattern)
+         (match-variable pattern input bindings))
+        ((eql pattern input) bindings)
+        ((segment-pattern-p pattern)
+         (segment-match pattern input bindings))
+        ((and (consp pattern) (consp input))
+         (pattern-match (rest pattern) (rest input)
+                        (pattern-match (first pattern) (first input)
+                                       bindings)))
+        (t fail)))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">match-variable</span> (var input bindings)
+  <span style="color: #9FC59F;">"Does VAR match input? Uses (or updates) and returns bindings."</span>
+  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((binding (get-binding var bindings)))
+    (<span style="color: #F0DFAF; font-weight: bold;">cond</span> ((not binding) (extend-bindings var input bindings))
+          ((equal input (binding-val binding)) bindings)
+          (t fail))))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">starts-with</span> (list x)
+  <span style="color: #9FC59F;">"Is this a list whose first element is x?"</span>
+  (and (consp list) (eql (car list) x)))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">segment-pattern-p</span> (pattern)
+  <span style="color: #9FC59F;">"Is this a segment matching pattern: ((?* var) . pat)"</span>
+  (and (consp pattern)
+       (starts-with (first pattern) '?*)))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">segment-match</span> (pattern input bindings <span style="color: #7CB8BB;">&amp;optional</span> (start 0))
+  <span style="color: #9FC59F;">"Match the segment pattern ((?* var) . pat) against input."</span>
+  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((var (second (first pattern)))
+        (pat (rest pattern)))
+    (<span style="color: #F0DFAF; font-weight: bold;">if</span> (null pat)
+        (match-variable var input bindings)
+        (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((pos (position (first pat) input
+                             <span style="color: #DCDCCC; font-weight: bold;">:start</span> start <span style="color: #DCDCCC; font-weight: bold;">:test</span> #'equal)))
+          (<span style="color: #F0DFAF; font-weight: bold;">if</span> (null pos)
+              fail
+              (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((b2 (pattern-match
+                         pat (subseq input pos)
+                         (match-variable var (subseq input 0 pos)
+                                         bindings))))
+                (<span style="color: #F0DFAF; font-weight: bold;">if</span> (eq b2 fail)
+                    (segment-match pattern input bindings (+ pos 1))
+                    b2)))))))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">rule-pattern</span> (rule) (car rule))
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">rule-responses</span> (rule) (cdr rule))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defparameter</span> <span style="color: #DFAF8F;">*eliza-rules*</span>
+  '((((?* ?x) hello (?* ?y))
+     (How do you do. Please state your problem.))
+    (((?* ?x) computer (?* ?y))
+     (<span style="color: #F0DFAF; font-weight: bold;">Do</span> computers worry you?) (What do you think about machines?)
+     (Why do you mention computers?)
+     (What do you think machines have to do with your problem?))
+    (((?* ?x) name (?* ?y))
+     (I am not interested in names))
+    (((?* ?x) sorry (?* ?y))
+     (Please don't apologize) (Apologies are not necessary)
+     (What feelings do you have when you apologize))
+    (((?* ?x) I remember (?* ?y))
+     (<span style="color: #F0DFAF; font-weight: bold;">Do</span> you often think of ?y)
+     (Does thinking of ?y bring anything else to mind?)
+     (What else do you remember) (Why do you recall ?y right now?)
+     (What in the present situation reminds you of ?y)
+     (What i s the connection between me and ?y))
+    (((?* ?x) do you remember (?* ?y))
+     (Did you think I would forget ?y ?)
+     (Why do you think I should recall ?y now)
+     (What about ?y) (You mentioned ?y))
+    (((?* ?x) if (?* ?y))
+     (<span style="color: #F0DFAF; font-weight: bold;">Do</span> you really think its likely that ?y) (<span style="color: #F0DFAF; font-weight: bold;">Do</span> you wish that ?y)
+     (What do you think about ?y) (Really-- if ?y))
+    (((?* ?x) I dreamt (?* ?y))
+     (Really-- ?y) (Have you ever fantasized ?y while you were awake?)
+     (Have you dreamt ?y before?))
+    (((?* ?x) dream about (?* ?y))
+     (How do you feel about ?y in reality?))
+    (((?* ?x) dream (?* ?y))
+     (What does this dream suggest to you?) (<span style="color: #F0DFAF; font-weight: bold;">Do</span> you dream often?)
+     (What persons appear in your dreams?)
+     (Don't you believe that dream has to do with your problem?))
+    (((?* ?x) my mother (?* ?y))
+     (Who else in your family ?y) (Tell me more about your family))
+    (((?* ?x) my father (?* ?y))
+     (Your father) (Does he influence you strongly?)
+     (What else comes to mind when you think of your father?))
+    (((?* ?x) I want (?* ?y))
+     (What would it mean if you got ?y)
+     (Why do you want ?y) (Suppose you got ?y soon))
+    (((?* ?x) I am glad (?* ?y))
+     (How have I helped you to be ?y) (What makes you happy just now)
+     (Can you explain why you are suddenly ?y))
+    (((?* ?x) I am sad (?* ?y))
+     (I am sorry to hear you are depressed)
+     (I 'm sure i t ' s not pleasant to be sad))
+    (((?* ?x) are like (?* ?y))
+     (What resemblance do you see between ?x and ?y))
+    (((?* ?x) i s like (?* ?y))
+     (In what way is it that ?x is like ?y)
+     (What resemblance do you see?)
+     (Could there really be some connection?) (How?))
+    (((?* ?x) alike (?* ?y))
+     (In what way?) (What s i m i l a r i t i e s are there?))
+    (((?* ?x) same (?* ?y))
+     (What other connections do you see?))
+    (((?* ?x) I was (?* ?y))
+     (Were you really ?) (Perhaps I already knew you were ?y)
+     (Why do you tell me you were ?y now?))
+    (((?* ?x) was I (?* ?y))
+     (What if you were ?y ?) (<span style="color: #F0DFAF; font-weight: bold;">Do</span> you think you were ?y)
+     (What would it mean if you were ?y))
+    (((?* ?x) I am (?* ?y))
+     (In what way are you ?y) (<span style="color: #F0DFAF; font-weight: bold;">Do</span> you want to be ?y ?))
+    (((?* ?x) am I (?* ?y))
+     (<span style="color: #F0DFAF; font-weight: bold;">Do</span> you believe you are ?y) (Would you want to be ?y)
+     (You wish I would tell you you are ?y)
+     (What would it mean if you were ?y))
+    (((?* ?x) am (?* ?y))
+     (Why do you say <span style="color: #CC9393;">"AM?"</span>) (I don't understand that))
+    (((?* ?x) are you (?* ?y))
+     (Why are you interested in whether I am ?y or not?)
+     (Would you prefer if I weren't ?y)
+     (Perhaps I am ?y in your fantasies))
+    (((?* ?x) you are (?* ?y))
+     (What makes you think I am ?y ?))
+    (((?* ?x) because (?* ?y))
+     (Is that the real reason?) (What other reasons might there be?)
+     (Does that reason seem to explain anything else?))
+    (((?* ?x) were you (?* ?y))
+     (Perhaps I was ?y) (What do you think?) (What if I had been ?y))
+    (((?* ?x) I can't (?* ?y))
+     (Maybe you could ?y now) (What if you could ?y ?))
+    (((?* ?x) I feel (?* ?y))
+     (<span style="color: #F0DFAF; font-weight: bold;">Do</span> you often feel ?y ?))
+    (((?* ?x) I felt (?* ?y))
+     (What other feelings do you have?))
+    (((?* ?x) I (?* ?y) you (?* ?z))
+     (Perhaps in your fantasy we ?y each other))
+    (((?* ?x) why don't you (?* ?y))
+     (Should you ?y yourself?)
+     (<span style="color: #F0DFAF; font-weight: bold;">Do</span> you believe I don't ?y) (Perhaps I will ?y in good time))
+    (((?* ?x) yes (?* ?y))
+     (You seem quite positive) (You are sure) (I understand))
+    (((?* ?x) no (?* ?y))
+     (Why not?) (You are being a bit negative)
+     (Are you saying <span style="color: #CC9393;">"NO"</span> just to be negative?))
+    (((?* ?x) someone (?* ?y))
+     (Can you be more specific?))
+    (((?* ?x) everyone (?* ?y))
+     (surely not everyone) (Can you think of anyone in particular?)
+     (Who for example?) (You are thinking of a special person))
+    (((?* ?x) always (?* ?y))
+     (Can you think of a specific example) (When?)
+     (What incident are you thinking of?) (Really-- always))
+    (((?* ?x) what (?* ?y))
+     (Why do you ask?) (Does that question interest you?)
+     (What is it you really want to know?) (What do you think?)
+     (What comes to your mind when you ask that?))
+    (((?* ?x) perhaps (?* ?y))
+     (You do not seem quite certain))
+    (((?* ?x) are (?* ?y))
+     (Did you think they might not be ?y)
+     (Possibly they are ?y))
+    (((?* ?x))
+     (Very interesting) (I am not sure I understand you fully)
+     (What does that suggest to you?) (Please continue) (<span style="color: #F0DFAF; font-weight: bold;">Go</span> on)
+     (<span style="color: #F0DFAF; font-weight: bold;">Do</span> you feel strongly about discussing such things?))))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">eliza</span> ()
+   <span style="color: #9FC59F;">"Respond to user input using pattern matching rules."</span>
+   (<span style="color: #F0DFAF; font-weight: bold;">loop</span>
+      (print 'eliza&gt;)
+      (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((input (read-line-no-punct))
+              (response (flatten (use-eliza-rules input))))
+           (print-with-spaces response)
+           (<span style="color: #F0DFAF; font-weight: bold;">if</span> (equal input '(bye)) (<span style="color: #F0DFAF; font-weight: bold;">RETURN</span>)))))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">read-line-no-punct</span> ()
+  <span style="color: #9FC59F;">"Read an input line, ignoring punctuation."</span>
+  (read-from-string
+   (concatenate 'string <span style="color: #CC9393;">"("</span> (substitute-if #\space #'punctuation-p
+             (read-line))
+    <span style="color: #CC9393;">")"</span>)))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">punctuation-p</span> (char) (find char <span style="color: #CC9393;">".,;:'!?#-()\\\""</span>))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">print-with-spaces</span> (list)
+  (format t <span style="color: #CC9393;">"~{~a ~}"</span> list))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">use-eliza-rules</span> (input)
+  <span style="color: #9FC59F;">"Find some rule with which to transform the input."</span>
+  (some #'(<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (rule)
+            (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((result (pattern-match (rule-pattern rule) input)))
+              (<span style="color: #F0DFAF; font-weight: bold;">if</span> (not (eq result fail))
+                  (sublis (switch-viewpoint result)
+                          (random-elt (rule-responses rule))))))
+        *eliza-rules*))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">switch-viewpoint</span> (words)
+  <span style="color: #9FC59F;">"Change I to you and vice versa, and so on."</span>
+  (sublis '((I . you) (you . I) (me . you) (am . are))
+          words))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">flatten</span> (the-list)
+  <span style="color: #9FC59F;">"Append together elements (or lists) in the list."</span>
+  (mappend #'mklist the-list))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">mklist</span> (x)
+  <span style="color: #9FC59F;">"Return x if it is a list, otherwise (x)."</span>
+  (<span style="color: #F0DFAF; font-weight: bold;">if</span> (listp x)
+      x
+      (list x)))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">mappend</span> (fn the-list)
+  <span style="color: #9FC59F;">"Apply fn to each element of list and append the results."</span>
+  (apply #'append (mapcar fn the-list)))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">random-elt</span> (choices)
+  <span style="color: #9FC59F;">"Choose an element from a list at random."</span>
+  (elt choices (random (length choices))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org53df639" class="outline-4">
+<h4 id="org53df639"><span class="section-number-4">2.2.2</span> New Control Structures</h4>
+<div class="outline-text-4" id="text-2-2-2">
 <p>
-Here is a small hello world program.
+It is not only easy, but encouraged at the most basic level of
+bottom-up programming to create new control structures that capture
+code repetition or are clearer.
 </p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">nif</span> (expr pos zero neg)
+  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((g (gensym)))
+    `(<span style="color: #F0DFAF; font-weight: bold;">let</span> ((,g ,expr))
+       (<span style="color: #F0DFAF; font-weight: bold;">cond</span> ((plusp ,g) ,pos)
+             ((zerop ,g) ,zero)
+             (t ,neg)))))
+
+(<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">while</span> (test <span style="color: #7CB8BB;">&amp;body</span> body)
+  `(<span style="color: #F0DFAF; font-weight: bold;">do</span> ()
+    ((not ,test))
+    ,@body))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org312395f" class="outline-4">
+<h4 id="org312395f"><span class="section-number-4">2.2.3</span> Use Package Macro in Emacs</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<p>
+I use the use-package macro in emacs all the time. The macro is a way
+to organize a config and not only is more readable, but it way easier
+to have a config that loads in &lt; 2 seconds. Below is an example
+declaration for setting up the the common lisp environment and what
+the code expands to. 
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(macroexpand-all '(<span style="color: #F0DFAF; font-weight: bold;">use-package</span> <span style="color: #BFEBBF;">slime</span>
+                    <span style="color: #DCDCCC; font-weight: bold;">:config</span>
+                    (load (expand-file-name <span style="color: #CC9393;">"~/quicklisp/slime-helper.el"</span>))
+                    (<span style="color: #F0DFAF; font-weight: bold;">setq</span> inferior-lisp-program <span style="color: #CC9393;">"/usr/bin/sbcl"</span>
+                          slime-contribs '(slime-fancy slime-quicklisp))))
+</pre>
+</div>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #51afef;">defun</span> <span style="color: #c678dd;">hello-world</span> ()
-  (format t <span style="color: #98be65;">"Hello World!"</span>))
-
-(hello-world)
+<pre class="src src-emacs-lisp">(<span style="color: #F0DFAF; font-weight: bold;">progn</span>
+  (use-package-ensure-elpa 'slime
+                           '(t)
+                           'nil)
+  (<span style="color: #F0DFAF; font-weight: bold;">defvar</span> <span style="color: #DFAF8F;">use-package--warning43</span>
+    #'(lambda
+        (keyword err)
+        (<span style="color: #F0DFAF; font-weight: bold;">let</span>
+            ((msg
+              (format <span style="color: #CC9393;">"%s/%s: %s"</span> 'slime keyword
+                      (error-message-string err))))
+          (display-warning 'use-package msg <span style="color: #DCDCCC; font-weight: bold;">:error</span>))))
+  (<span style="color: #F0DFAF; font-weight: bold;">condition-case</span> err
+      (eval-after-load 'slime
+        #'(lambda nil
+            (<span style="color: #F0DFAF; font-weight: bold;">condition-case</span> err
+                (<span style="color: #F0DFAF; font-weight: bold;">progn</span>
+                  (load
+                   (expand-file-name <span style="color: #CC9393;">"~/quicklisp/slime-helper.el"</span>))
+                  (<span style="color: #F0DFAF; font-weight: bold;">setq</span> inferior-lisp-program <span style="color: #CC9393;">"/usr/bin/sbcl"</span> slime-contribs
+                        '(slime-fancy slime-quicklisp))
+                  t)
+              ((debug error)
+               (funcall use-package--warning43 <span style="color: #DCDCCC; font-weight: bold;">:config</span> err)))))
+    ((debug error)
+     (funcall use-package--warning43 <span style="color: #DCDCCC; font-weight: bold;">:catch</span> err))))
 </pre>
 </div>
 
 <pre class="example">
-Hello World!
+t
+
 </pre>
 </div>
 </div>
-<div id="outline-container-orgb2e086c" class="outline-2">
-<h2 id="orgb2e086c"><span class="section-number-2">3</span> CS490 Metaprogramming? <span class="timestamp-wrapper"><span class="timestamp">[2020-01-27 Mon]</span></span></h2>
+</div>
+</div>
+
+<div id="outline-container-orgd6881da" class="outline-2">
+<h2 id="orgd6881da"><span class="section-number-2">3</span> Unit 3: Application</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-I'm trying to setup up a blog to keep track of my progress in my
-special topics course CS490 Metaprogramming. 
+The last part of the course will be the concrete application of the
+lessons I learned. It will involve working through the On Lisp
+embedded Prolog DSL, a true bottom-up system. Additionally, I will
+also complete a metaprogramming survey, which will involve research
+and explanation of the role of metaprogramming in other programming
+languages. 
 </p>
-
-<p>
-The idea is to be able setup a blog with both my code and
-reflections. I will be using Org Mode for this.
-</p>
-
-<p>
-I can define a variable here: 
-</p>
-
-<div class="org-src-container">
-<pre class="src src-lisp">(setq x 5)
-</pre>
 </div>
-
-<p>
-And compute with it here: 
-</p>
-
-<div class="org-src-container">
-<pre class="src src-lisp">(+ x 3)
-</pre>
+<div id="outline-container-orgf8960de" class="outline-3">
+<h3 id="orgf8960de"><span class="section-number-3">3.1</span> Tasks</h3>
+<div class="outline-text-3" id="text-3-1">
 </div>
-
-<p>
-The goal of this course is to learn about metaprogramming,
-specifically macros. There will be readings and reflections on books
-(starting with On Lisp) and papers and essays. 
-</p>
+<div id="outline-container-org88a7d94" class="outline-4">
+<h4 id="org88a7d94"><span class="section-number-4">3.1.1</span> <span class="todo TODO">TODO</span> Prolog</h4>
+</div>
+<div id="outline-container-orgb16c163" class="outline-4">
+<h4 id="orgb16c163"><span class="section-number-4">3.1.2</span> <span class="todo TODO">TODO</span> Metaprogramming Survey</h4>
+</div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: Shukry Zablah (<a href="mailto:shukryzablah@gmail.com">shukryzablah@gmail.com</a>)</p>
- <p class="exporter">Exporter: <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.60 (<a href="https://orgmode.org">Org</a> mode 9.3)</p>
- <p class="modified">Last modified: 2020-02-01 Sat 12:27</p>
+<p class="author">Author: Shukry Zablah (<a href="mailto:shukryzablah@archlinux">shukryzablah@archlinux</a>)</p>
+ <p class="exporter">Exporter: <a href="https://www.gnu.org/software/emacs/">Emacs</a> 26.3 (<a href="https://orgmode.org">Org</a> mode 9.1.9)</p>
+ <p class="modified">Last modified: 2020-04-17 Fri 19:58</p>
 </div>
 </body>
 </html>
