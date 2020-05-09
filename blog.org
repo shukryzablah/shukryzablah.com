@@ -1,0 +1,17 @@
+#+TITLE: "My Journal"
+#+AUTHOR: "Shukry Zablah"
+#+EMAIL: "shukryzablah@gmail.com"
+#+HUGO_BASE_DIR: .
+#+hugo_auto_set_lastmod: t
+
+* About 
+  :PROPERTIES:
+  :EXPORT_HUGO_SECTION: /
+  :EXPORT_FILE_NAME: about
+  :END:
+Shukry Zablah is a recent Computer Science and Statistics graduate
+from Amherst College.
+* TODO Simple tutorial for creating a website 
+Drafting
+
+
