@@ -1,2 +1,5 @@
 * shukryzablah.com
+
+[[https://app.netlify.com/sites/shukryzablah/deploys][https://api.netlify.com/api/v1/badges/93271491-6dcb-4fbe-a8ba-d5a41058f086/deploy-status.svg]]
+
 This is my personal website. 
