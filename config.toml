@@ -46,10 +46,10 @@ disqusShortname = "shukryzablah"
     url = "https://www.linkedin.com/in/shukryzablah/"
 
 # Menu links
-[[menu.main]]
-    name = "Blog"
-    weight = 1
-    url  = "/posts/"
+# [[menu.main]]
+#     name = "Blog"
+#     weight = 1
+#     url  = "/posts/"
 [[menu.main]]
     name = "About"
     weight = 2
