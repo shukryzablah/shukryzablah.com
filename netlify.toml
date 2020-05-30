@@ -1,8 +1,13 @@
 [build]
 
+################################################################
+# This section controls how to build the testing, staging, and #
+# production branches                                          #
+################################################################
+
 [context.production]
 publish = "public"
-command = "hugo --gc --minify"
+command = "hugo --gc --minify --destination public"
 environment = { HUGO_VERSION = "0.69.2", HUGO_ENV = "production" }
 
 [context.staging]
@@ -14,3 +19,18 @@ environment = { HUGO_VERSION = "0.69.2", HUGO_ENV = "production" }
 publish = "testing"
 command = "hugo --gc --buildDrafts --buildFuture --debug --enableGitInfo --logFile site.log --verbose --verboseLog --destination testing --baseURL https://testing.shukryzablah.com/"
 environment = { HUGO_VERSION = "0.69.2", HUGO_ENV = "development" }
+
+########################################
+# This section controls redirect logic #
+########################################
+
+[[redirects]]
+  from = "resume.pdf"
+  to = "/documents/resume.pdf"
+  status = 301
+  force = true
+
+
+
+
+
